@@ -205,7 +205,6 @@ glitch-container {
      background-position: center;
      background-size: 500px;
    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   background-color: #e0e0e0;
 }
 
 
@@ -229,7 +228,6 @@ glitch-container {
      background-position: center;
      background-size: 500px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #e0e0e0;
 }
 
 
