@@ -497,10 +497,6 @@ textarea:hover {
     display: block;
 }
 
-.mode-toggle button:hover {
-    background-color: #777;
-}
-
 /* Dark Mode Styles */
 
 body.light-mode header,
