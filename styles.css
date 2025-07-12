@@ -6,7 +6,10 @@ body {
    background-image: url('https://media1.tenor.com/images/294063b20b7bf9fc40b3cfb44f91215d/tenor.gif?itemid=16859964');
      background-attachment: fixed;
       background-position: center;
-      
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+ 	margin: 0;
 }
 
 
