@@ -91,9 +91,6 @@ header {
     display: block;
 }
 
-.mode-toggle button:hover {
-    background-color: #777;
-}
 .homebutton,
 .portfoliobutton {
     width: 10%;
@@ -547,14 +544,12 @@ body.light-mode {
 }
 
 
-body.light-mode .nav-button,
-body.light-mode .mode-toggle {
+body.light-mode .nav-button {
     background-color: #ddd;
     color: black;
 }
 
-body.light-mode .nav-button:hover,
-body.light-mode .mode-toggle:hover {
+body.light-mode .nav-button:hover {
     background-color: #bbb;
 }
 
