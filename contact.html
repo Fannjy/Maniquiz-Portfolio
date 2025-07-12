@@ -171,6 +171,19 @@ function animateContactHeading() {
 
 setInterval(animateContactHeading, 1000);
 
+    
+document.addEventListener('DOMContentLoaded', function () {
+
+  const formContainer = document.querySelector('.form-container');
+  if (formContainer) {
+    setTimeout(() => {
+      formContainer.classList.add('slide-in');
+    }, 100); 
+  }
+
+});
+
+    
 </script>
 
 
