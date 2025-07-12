@@ -24,7 +24,7 @@
 <main>
     <section class="contact-section">
         <div class="form-container">
-            <h2>Contact Me</h2>
+            <h2 id="contactHeading">Contact Me</h2>
             <form id="contactForm">
                 Full name:<br>
                 <input type="text" name="name" placeholder="Jon T. Manyakis"><br><br>
@@ -158,6 +158,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+const contactTexts = ["CONTACT ME", "CONTACT M", "CONTACT", "CONTACT M"];
+let contactIndex = 0;
+
+function animateContactHeading() {
+  const heading = document.getElementById("contactHeading");
+  if (heading) {
+    heading.textContent = contactTexts[contactIndex];
+    contactIndex = (contactIndex + 1) % contactTexts.length;
+  }
+}
+
+setInterval(animateContactHeading, 1000);
+
 </script>
 
 
