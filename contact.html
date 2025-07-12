@@ -64,123 +64,113 @@
 
 
 <script>
-    function toggleMode() {
-      document.body.classList.toggle("light-mode");
-    }
-    
-    function showPopup() {
-      document.getElementById('popup').style.display = 'flex';
-    }
-    
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-    }
-    
-    function showErrorPopup() {
-      document.getElementById('errorPopup').style.display = 'flex';
-    }
-    
-    function closeErrorPopup() {
-      document.getElementById('errorPopup').style.display = 'none';
-    }
-    
-    const contactTexts = ["CONTACT ME", "CONTACT M", "CONTACT", "CONTACT M"];
-    let contactIndex = 0;
-    
-    function animateContactHeading() {
-      const heading = document.getElementById("contactHeading");
-      if (heading) {
-        heading.textContent = contactTexts[contactIndex];
-        contactIndex = (contactIndex + 1) % contactTexts.length;
+function toggleMode() {
+  document.body.classList.toggle("light-mode");
+}
+
+function showPopup() {
+  document.getElementById('popup').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+function showErrorPopup() {
+  document.getElementById('errorPopup').style.display = 'flex';
+}
+
+function closeErrorPopup() {
+  document.getElementById('errorPopup').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('errorPopup').style.display = 'none';
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycbywOcMYpKsrYFlX9b9Zu-LBGS-4E4yjHm8oHNemR-FYNHiF0Xl0E9ROQ7ZjBw9EPEnorQ/exec";
+  const form = document.getElementById("contactForm");
+  const responseMsg = document.getElementById("response");
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      let dotCount = 1;
+      let originalText = "Submitting";
+      let animationInterval;
+
+      submitButton.disabled = true;
+      submitButton.style.backgroundColor = "#aaa";
+      submitButton.style.color = "#444";
+
+      // Start dot animation
+      animationInterval = setInterval(() => {
+        submitButton.textContent = originalText + ".".repeat(dotCount);
+        dotCount = dotCount < 3 ? dotCount + 1 : 1;
+      }, 500);
+
+      const inputs = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
+      let allFilled = true;
+
+      inputs.forEach(input => {
+        if (input.value.trim() === "") {
+          allFilled = false;
+        }
+      });
+
+      if (!allFilled) {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
+        showErrorPopup();
+        return;
       }
-    }
-    setInterval(animateContactHeading, 1000);
-    
-    document.addEventListener('DOMContentLoaded', function () {
-      // Hide popups initially
-      document.getElementById('popup').style.display = 'none';
-      document.getElementById('errorPopup').style.display = 'none';
-    
-      // Slide-in animation for contact form
-      const formContainer = document.querySelector('.form-container');
-      if (formContainer) {
-        setTimeout(() => {
-          formContainer.classList.add('slide-in');
-        }, 100);
-      }
-    
-      // Form submission logic
-      const scriptURL = "https://script.google.com/macros/s/AKfycbywOcMYpKsrYFlX9b9Zu-LBGS-4E4yjHm8oHNemR-FYNHiF0Xl0E9ROQ7ZjBw9EPEnorQ/exec";
-      const form = document.getElementById("contactForm");
-      const responseMsg = document.getElementById("response");
-    
-      if (form) {
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          const submitButton = form.querySelector('button[type="submit"]');
-          let dotCount = 1;
-          let originalText = "Submitting";
-          let animationInterval;
-    
-          submitButton.disabled = true;
-          submitButton.style.backgroundColor = "#aaa";
-          submitButton.style.color = "#444";
-    
-          // Start dot animation
-          animationInterval = setInterval(() => {
-            submitButton.textContent = originalText + ".".repeat(dotCount);
-            dotCount = dotCount < 3 ? dotCount + 1 : 1;
-          }, 500);
-    
-          const inputs = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
-          let allFilled = true;
-    
-          inputs.forEach(input => {
-            if (input.value.trim() === "") {
-              allFilled = false;
-            }
-          });
-    
-          if (!allFilled) {
-            clearInterval(animationInterval);
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit";
-            submitButton.style.backgroundColor = "";
-            submitButton.style.color = "";
-            showErrorPopup();
-            return;
-          }
-    
-          const formData = new FormData(form);
-    
-          fetch(scriptURL, {
-            method: "POST",
-            body: new URLSearchParams(formData)
-          })
-          .then(res => res.json())
-          .then(data => {
-            clearInterval(animationInterval);
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit";
-            submitButton.style.backgroundColor = "";
-            submitButton.style.color = "";
-            showPopup();
-            form.reset();
-            responseMsg.textContent = "Message sent successfully!";
-          })
-          .catch(error => {
-            clearInterval(animationInterval);
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit";
-            submitButton.style.backgroundColor = "";
-            submitButton.style.color = "";
-            responseMsg.textContent = "Error sending message.";
-            console.error("Error!", error.message);
-          });
-        });
-      }
+
+      const formData = new FormData(form);
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: new URLSearchParams(formData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
+        showPopup();
+        form.reset();
+        responseMsg.textContent = "Message sent successfully!";
+      })
+      .catch(error => {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
+        responseMsg.textContent = "Error sending message.";
+        console.error("Error!", error.message);
+      });
     });
-    </script>
+  }
+});
+const contactTexts = ["CONTACT ME", "CONTACT M", "CONTACT", "CONTACT M"];
+let contactIndex = 0;
+
+function animateContactHeading() {
+  const heading = document.getElementById("contactHeading");
+  if (heading) {
+    heading.textContent = contactTexts[contactIndex];
+    contactIndex = (contactIndex + 1) % contactTexts.length;
+  }
+}
+
+setInterval(animateContactHeading, 1000);
+</script>
     
 
 
