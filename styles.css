@@ -90,7 +90,9 @@ header {
     margin: 10px auto;
     display: block;
 }
-
+.mode-toggle button:hover {
+    background-color: #777;
+}
 .homebutton,
 .portfoliobutton {
     width: 10%;
