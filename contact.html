@@ -96,10 +96,19 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-        submitButton.textContent = "Submitting...";
-        submitButton.style.backgroundColor = "#aaa"; 
-        submitButton.style.color = "#444";
+      let dotCount = 1;
+      let originalText = "Submitting";
+      let animationInterval;
+
+      submitButton.disabled = true;
+      submitButton.style.backgroundColor = "#aaa";
+      submitButton.style.color = "#444";
+
+      // Start dot animation
+      animationInterval = setInterval(() => {
+        submitButton.textContent = originalText + ".".repeat(dotCount);
+        dotCount = dotCount < 3 ? dotCount + 1 : 1;
+      }, 500);
 
       const inputs = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
       let allFilled = true;
@@ -111,6 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (!allFilled) {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
         showErrorPopup();
         return;
       }
@@ -123,21 +137,23 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(res => res.json())
       .then(data => {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
         showPopup();
         form.reset();
         responseMsg.textContent = "Message sent successfully!";
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
-        submitButton.style.backgroundColor = ""; // restore original (or use original hex code)
-        submitButton.style.color = "";
       })
       .catch(error => {
+        clearInterval(animationInterval); // stop animation
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        submitButton.style.backgroundColor = "";
+        submitButton.style.color = "";
         responseMsg.textContent = "Error sending message.";
         console.error("Error!", error.message);
-        submitButton.disabled = false;
-submitButton.textContent = "Submit";
-submitButton.style.backgroundColor = "";
-submitButton.style.color = "";
       });
     });
   }
