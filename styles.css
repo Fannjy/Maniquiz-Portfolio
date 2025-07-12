@@ -139,6 +139,19 @@ glitch-container {
  }
 }
 
+
+.form-container {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.form-container.slide-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
  footer {
     background-color: #333;
     color: white;
